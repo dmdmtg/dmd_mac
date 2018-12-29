@@ -16,8 +16,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     @IBOutlet var connectMenuItem: NSMenuItem!
     @IBOutlet var disconnectMenuItem: NSMenuItem!
-    @IBOutlet var greenColorMenuItem: NSMenuItem!
-    @IBOutlet var whiteColorMenuItem: NSMenuItem!
     
     var dmd = Dmd()
     
