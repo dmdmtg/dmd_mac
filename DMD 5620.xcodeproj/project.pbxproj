@@ -31,7 +31,6 @@
 		5DA21E6B21CF074C00A31B4F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5DA21E6E21CF074C00A31B4F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5DA21E7021CF074C00A31B4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5DA21E7121CF074C00A31B4F /* DMD_5620.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DMD_5620.entitlements; sourceTree = "<group>"; };
 		5DA21E7721CF078F00A31B4F /* Dmd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dmd.swift; sourceTree = "<group>"; };
 		5DA21E7A21CF07CD00A31B4F /* libdmd_core.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libdmd_core.a; sourceTree = "<group>"; };
 		5DA21E7C21CF07EE00A31B4F /* bridge_header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bridge_header.h; sourceTree = "<group>"; };
@@ -94,7 +93,6 @@
 				5DA21E6B21CF074C00A31B4F /* Assets.xcassets */,
 				5DA21E6D21CF074C00A31B4F /* Main.storyboard */,
 				5DA21E7021CF074C00A31B4F /* Info.plist */,
-				5DA21E7121CF074C00A31B4F /* DMD_5620.entitlements */,
 			);
 			path = "DMD 5620";
 			sourceTree = "<group>";
