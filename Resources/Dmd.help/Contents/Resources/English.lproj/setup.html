@@ -1,0 +1,195 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <title>DMD 5620 Help</title>
+  <link rel="stylesheet" type="text/css" href="sty/style.css">
+  <meta http-equiv="Expires" content="Tue, 01 Jan 1980 1:00:00 GMT">
+  <meta http-equiv="Pragma" content="no-cache">
+</head>
+<body>
+  <h1>Terminal Setup</h1>
+
+  <p>The DMD 5620 terminal has a battery-backed memory area used to
+    store terminal settings. To configure the terminal settings, use
+    the <strong>SETUP</strong> key (this is mapped
+    to <strong>F9</strong> on the Macintosh keyboard).</p>
+
+  <p>Pressing <strong>SETUP</strong> (<strong>F9</strong>) will bring up
+    the terminal's built-in setup program. A new menu will appear along
+    the bottom of the terminal display area.</p>
+
+  <img src="../shrd/setup_1.png" alt="Setup Program" text="Setup Program" />
+
+  <p>The menu items may be selected either with the mouse by clicking
+    the left mouse button, or with a corresponding function key. From
+    left to right, these items correspond to <strong>F1</strong>
+    through <strong>F8</strong>.</p>
+
+  <p>After making any changes, press the <strong>F9</strong> key on
+    the keyboard again (or click the right mouse button) to store the
+    settings.  These settings will be remembered between runs of the
+    emulator.</p>
+
+  <hr/>
+
+  <h2>Port Options</h2>
+
+  <img src="../shrd/setup_port_options.png" alt="Setup Port Options" text="Setup Port Options" />
+
+  <p>The <strong>Port Options</strong> menu allows you to change settings for
+    the emulated serial port. Clicking on <strong>Port A Options</strong> or
+    pressing the <strong>F2</strong> key will reveal the following menu.</p>
+
+  <img src="../shrd/setup_port_a_options.png" alt="Setup Port A Options" text="Setup Port A Options" />
+
+  <p>The <strong>Parity</strong>, <strong>Bits/Char</strong>, <strong>Type</strong>,
+    and <strong>Rcv  Flow</strong> menus  have no effect on a Telnet
+    connection and can safely be ignored. The <strong>Speed</strong> menu,
+    however, is faithfully emulated and characters will be sent and received
+    at the selected rate.</p>
+
+  <p>Repeatedly clicking on the <strong>Speed</strong> button or pressing
+    the <strong>F2</strong> key will cycle through the available speeds. You can
+    select from:</p>
+
+  <ul>
+    <li>300 baud</li>
+    <li>1200 baud</li>
+    <li>2400 baud</li>
+    <li>4800 baud</li>
+    <li>9600 baud</li>
+    <li>19200 baud</li>
+  </ul>
+
+  <p><em>(Note: At the moment, only Port A, the main port used to
+    communicate with a remote host, is emulated. Changing settings for
+      Port B will have no effect.)</em></p>
+
+  <p>Clicking on <strong>Main Menu</strong> or pressing
+    the <strong>F1</strong> key will return you to the main settings
+    menu.</p>
+
+  <hr/>
+
+  <h2>Host Options</h2>
+
+  <img src="../shrd/setup_host_options.png" alt="Setup Host Options" text="Setup Host Options" />
+
+  <p>The <strong>Host Options</strong> menu controls various features of
+    communication between the terminal and the host. These settings are
+    described below.</p>
+
+  <h3>Duplex</h3>
+
+  <p><em>Full</em>, the default, means that the terminal will not echo
+    transmitted characters back to the screen. This is normally the
+    required setting for a UNIX host. <em>Half</em> means that
+    transmitted characters will be echoed back to the screen.</p>
+
+  <p>The default is <em>Full</em>.</p>
+
+  <h3>Encoding</h3>
+
+  <p>This option selects whether the terminal will encode non-printable
+    ASCII characters when sent to the host. It's safe to leave this on
+    the default setting, <em>Off</em>.</p>
+
+  <h3>Gen Flow</h3>
+
+  <p>This option selects whether the terminal will generate ASCII
+    DC1/DC3 characters to the host. It's safe to leave this on the
+    default setting, <em>On</em>.</p>
+
+  <h3>Pass Flow</h3>
+
+  <p>This option selects whether DC1/DC3 characters typed at the
+    keyboard will be passed to the host. It's safe to leave this on
+    the default setting,
+    <em>No</em>.</p>
+
+  <hr/>
+
+  <h2>Preferences</h2>
+
+  <p>There are two pages of <strong>Preferences</strong> settings.</p>
+
+  <img src="../shrd/setup_preferences_1.png" alt="Setup Preferences (page 1)" text="Setup Preferences (page 1)" />
+
+  <p>Clicking on <strong>More</strong> will display the second page of settings.</p>
+
+  <img src="../shrd/setup_preferences_2.png" alt="Setup Preferences (page 2)" text="Setup Preferences (page 2)" />
+
+  <h3>Screen</h3>
+
+  <p>This option selects between light characters on a dark
+    background, or dark characters on a light background. The default
+    is <em>Dark</em>.</p>
+
+  <h3>Controls</h3>
+
+  <p>This option determins whether ASCII control characters are printed
+    to the terminal using symbols (<em>Visible</em>), ignored entirely,
+    (<em>Invisible</em>), or displayed as spaces (<em>Spaces</em>).
+    The default is <em>Visible</em>.</p>
+
+  <h3>Key Tone</h3>
+
+  <p>This option controls whether key click sounds are generated on every
+    key press. The default is <em>On</em>.</p>
+
+  <p><em>(Note: This feature is not emulated.)</em></p>
+
+  <h3>Cursor</h3>
+
+  <p>This option controls whether the cursor blinks. If set
+    to <em>Blink</em>, the cursor will blink once every second. The
+    default is <em>No Blink</em>.</p>
+
+  <h3>Repeat</h3>
+
+  <p>This option selects the key repeat speed.</p>
+
+  <p><em>(Note: This feature is not emulated. The terminal will
+      always use the macOS key repeat speed instead.)</em></p>
+
+  <h3>Mouse</h3>
+
+  <p>This option selects which hand the mouse is held in.</p>
+
+  <p>If set to <em>Right</em>, the mouse buttons are numbered 1, 2,
+    and 3 from left to right. If set to <em>Left</em>, the mouse
+    buttons are numbered 3, 2, and 1 from left to right. The default
+    is <em>Right</em>.</p>
+
+  <h3>Newline</h3>
+
+  <p>This option selects the action caused by a received
+    new line (ASCII 0x0a). Selecting <em>NL</em> causes
+    an advance to the beginning of hte next line. Selecting
+    <em>Index</em> causes an advance to the same position on
+    the next line. The default is <em>Index</em>.</p>
+
+  <h3>Return</h3>
+
+  <p>This option selects the sequence sent by
+    the <strong>Return</strong> key on the
+    keyboard. Selecting <em>CR</em> sends a carriage return (ASCII
+    0x0d). Selecting <em>CR/LF</em> sends a carriage return followed
+    by a line feed (ASCII 0x0a).  Selecting <em>LF</em> sends a line
+    feed only. The default is <em>CR</em></p>
+
+  <hr/>
+
+  <h2>Edit PF Keys</h2>
+
+  <img src="../shrd/setup_edit_pf_keys.png" alt="Edit PF Keys" text="Edit PF Keys" />
+
+  <p>This menu allows you to create custom macros that can be
+    performed by the keys <strong>F1</strong>
+    through <strong>F8</strong>. To create a macro, click on any of
+    the menu items, or press the corresponding function key.</p>
+
+  <p><a href="index.html">Back to the Index Page</a></p>
+</body>
+</html>

@@ -1,0 +1,13 @@
+body {
+    font-family: -apple-system, 'Lucida Grande', 'Lucida Sans Unicode', Helvetica, Arial, Verdana, sans-serif;
+    min-width: 620px;
+    width: auto !important;
+    width: 620px;
+}
+
+img {
+    padding: 12px;
+    border: 1px solid grey;
+    border-radius: 10px;
+    background: #ccc;
+}

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>CFBundleDevelopmentRegion</key>
+    <string>en-US</string>
+    <key>CFBundleIdentifier</key>
+    <string>com.loomcom.dmd5620.help</string>
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+    <key>CFBundleName</key>
+    <string>Dmd5620Help</string>
+    <key>CFBundlePackageType</key>
+    <string>BNDL</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+    <key>CFBundleSignature</key>
+    <string>CHDe</string>
+    <key>CFBundleVersion</key>
+    <string>1</string>
+    <key>CFBundleHelpTOCFile</key>
+    <string>index.html</string>
+    <key>HPDBookAccessPath</key>
+    <string>index.html</string>
+    <key>HPDBookIndexPath</key>
+    <string>Dmd.helpindex</string>
+    <key>HPDBookTitle</key>
+    <string>DMD 5620 Help</string>
+    <key>HPDBookType</key>
+    <string>3</string>
+  </dict>
+</plist>
