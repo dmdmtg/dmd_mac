@@ -191,10 +191,15 @@ extension ViewController: DmdProtocol {
         setConnectedTitle(host: host, port: port)
     }
 
-    func telnetDisconnected() {
+    func telnetDisconnected(withError err: Error?) {
         let appDelegate = NSApplication.shared.delegate as! AppDelegate
         appDelegate.connectMenuItem.isEnabled = true
         appDelegate.disconnectMenuItem.isEnabled = false
         setDisconnecteTitle()
+        
+        if (err != nil) {
+            let alert: NSAlert = NSAlert(error: err!)
+            alert.runModal()
+        }
     }
 }

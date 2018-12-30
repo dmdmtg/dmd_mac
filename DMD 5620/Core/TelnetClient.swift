@@ -33,10 +33,11 @@ enum TelnetState: UInt8 {
 let OPT_BINARY: UInt8 = 0
 let OPT_ECHO: UInt8 = 1
 let OPT_SUPPRESS_GO_AHEAD: UInt8 = 2
+let OPT_TERMINAL_SPEED: UInt = 32
 
 protocol TelnetReceiver {
     func rxData(data: Data)
-    func socketClosed()
+    func socketClosed(withError err: Error?)
 }
 
 class TelnetClient: NSObject, GCDAsyncSocketDelegate {
@@ -56,7 +57,11 @@ class TelnetClient: NSObject, GCDAsyncSocketDelegate {
         
         self.asyncSocket = GCDAsyncSocket(delegate: self, delegateQueue: DispatchQueue.main)
         self.asyncSocket?.autoDisconnectOnClosedReadStream = true
-        try? self.asyncSocket?.connect(toHost: host, onPort: port, withTimeout: 75)
+        do {
+            try self.asyncSocket?.connect(toHost: host, onPort: port, withTimeout: 5)
+        } catch let error {
+            print("Error: \(error)")
+        }
     }
     
     func disconnect() {
@@ -80,7 +85,7 @@ class TelnetClient: NSObject, GCDAsyncSocketDelegate {
     
     @objc
     public func socketDidDisconnect(_ sock: GCDAsyncSocket, withError err: Error?) {
-        delegate?.socketClosed()
+        delegate?.socketClosed(withError: err)
     }
     
     @objc

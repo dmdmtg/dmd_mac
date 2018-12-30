@@ -34,7 +34,7 @@ class Dmd: TelnetReceiver {
     
     func disconnect() {
         telnetClient.disconnect()
-        delegate?.telnetDisconnected()
+        delegate?.telnetDisconnected(withError: nil)
     }
 
     func start() {
@@ -155,13 +155,13 @@ class Dmd: TelnetReceiver {
         }
     }
     
-    func socketClosed() {
-        delegate?.telnetDisconnected()
+    func socketClosed(withError err: Error?) {
+        delegate?.telnetDisconnected(withError: err)
     }
 }
 
 protocol DmdProtocol {
     func updateView(_ dmd: Dmd, data: UnsafeMutablePointer<UInt8>)
     func telnetConnected(host: String, port: UInt16)
-    func telnetDisconnected()
+    func telnetDisconnected(withError err: Error?)
 }
