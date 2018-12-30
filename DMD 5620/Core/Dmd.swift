@@ -39,9 +39,9 @@ class Dmd: TelnetReceiver {
 
     func start() {
         dmdRunner = DispatchSource.makeTimerSource(flags: DispatchSource.TimerFlags(rawValue: 0), queue: dmdRunQueue)
-        dmdRunner?.schedule(deadline: .now() + .microseconds(1000),
-                            repeating: .microseconds(1000),
-                            leeway: .microseconds(250))
+        dmdRunner?.schedule(deadline: .now() + .microseconds(500),
+                            repeating: .microseconds(500),
+                            leeway: .microseconds(50))
         dmdRunner?.setEventHandler(handler: { () in
             self.runAndPoll()
         })
@@ -109,7 +109,7 @@ class Dmd: TelnetReceiver {
     }
     
     func runAndPoll() {
-        dmd_step_loop(1400)
+        dmd_step_loop(550)
         
         // Handle keyboard input from the UI to the terminal
         while (!self.kbQueue.isEmpty) {

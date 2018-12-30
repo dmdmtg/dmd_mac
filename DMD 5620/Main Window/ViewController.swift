@@ -41,7 +41,7 @@ class ViewController: NSViewController {
             return event
         })
         
-        NSEvent.addLocalMonitorForEvents(matching: [.rightMouseDragged, .otherMouseDragged], handler: { (event) in
+        NSEvent.addLocalMonitorForEvents(matching: [.rightMouseDragged, .leftMouseDragged, .otherMouseDragged], handler: { (event) in
             if (event.windowNumber == self.window.windowNumber) {
                 self.mouseMoved(with: event)
             }

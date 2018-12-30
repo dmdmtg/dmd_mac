@@ -202,6 +202,9 @@
 					5DA21E6321CF074B00A31B4F = {
 						CreatedOnToolsVersion = 10.1;
 						SystemCapabilities = {
+							com.apple.HardenedRuntime = {
+								enabled = 1;
+							};
 							com.apple.Sandbox = {
 								enabled = 1;
 							};
@@ -440,10 +443,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = "DMD 5620/DMD 5620.entitlements";
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Developer ID Application: Seth Morabito (GZK633SW5G)";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = GZK633SW5G;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "DMD 5620/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -470,10 +474,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_USE_OPTIMIZATION_PROFILE = YES;
 				CODE_SIGN_ENTITLEMENTS = "DMD 5620/DMD 5620.entitlements";
-				CODE_SIGN_IDENTITY = "Mac Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Developer ID Application: Seth Morabito (GZK633SW5G)";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = GZK633SW5G;
+				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = "DMD 5620/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
