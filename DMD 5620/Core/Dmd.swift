@@ -109,7 +109,7 @@ class Dmd: TelnetReceiver {
     }
     
     func runAndPoll() {
-        dmd_step_loop(550)
+        dmd_step_loop(1000)
         
         // Handle keyboard input from the UI to the terminal
         while (!self.kbQueue.isEmpty) {
