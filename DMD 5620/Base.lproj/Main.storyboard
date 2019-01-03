@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -74,6 +75,12 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="Y6Y-RE-NeN"/>
+                                        <menuItem title="Reset Terminal" keyEquivalent="R" id="LXt-ri-nhb">
+                                            <connections>
+                                                <action selector="resetWithSender:" target="Ady-hI-5gd" id="2kT-xm-fDn"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="JJl-JC-DVl"/>
                                         <menuItem title="Close Window" keyEquivalent="w" id="UVY-5M-dV5">
                                             <connections>
                                                 <action selector="performClose:" target="Ady-hI-5gd" id="DoU-Im-dZ5"/>

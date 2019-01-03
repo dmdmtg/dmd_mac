@@ -24,7 +24,7 @@ class Dmd: TelnetReceiver {
     
     init() {
         telnetClient.delegate = self
-        dmd_reset();
+        reset();
     }
     
     func connect(host: String, port: UInt16) {
@@ -35,6 +35,10 @@ class Dmd: TelnetReceiver {
     func disconnect() {
         telnetClient.disconnect()
         delegate?.telnetDisconnected(withError: nil)
+    }
+
+    func reset() {
+        dmd_reset();
     }
 
     func start() {

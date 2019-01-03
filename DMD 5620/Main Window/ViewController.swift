@@ -21,6 +21,10 @@ class ViewController: NSViewController {
     @IBAction func disconnect(sender: NSMenuItem) {
         dmd?.disconnect()
     }
+
+    @IBAction func reset(sender: NSMenuItem) {
+        dmd?.reset()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
