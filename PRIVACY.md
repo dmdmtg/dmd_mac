@@ -1,14 +1,12 @@
 # Privacy Policy
 
-Loom Communications, LLC built DMD 5620 app as an Open Source
-app. This application is provided by Loom Communications, LLC at no
-cost and is intended for use as is.
+The DMD 5620 app is an Open Source app. This application is provided
+at no cost and is intended for use as is.
 
 ## Information Collected
 
 DMD 5620 does not collect or transmit any personally identifiable
-information to or from Loom Communications, LLC, nor any third
-parties.
+information to or from the developer, nor any third parties.
 
 ## Network Use
 

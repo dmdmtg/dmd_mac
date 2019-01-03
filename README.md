@@ -2,6 +2,11 @@
 
 ## ChangeLog
 
+### 1.3.0
+
+* Fixed a bug that prevented terminal settings from being saved on quit.
+* Added a "Reset" menu item.
+
 ### 1.2.0
 
 * Upgraded to `dmd_core` 0.6.3 to fix video RAM and DUART bugs.
