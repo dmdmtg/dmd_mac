@@ -26,6 +26,10 @@ class ViewController: NSViewController {
         dmd?.reset()
     }
     
+    @IBAction func pasteFromClipboard(sender: NSMenuItem) {
+        dmd?.pasteFromClipboard()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

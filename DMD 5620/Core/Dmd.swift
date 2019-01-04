@@ -15,6 +15,7 @@ class Dmd: TelnetReceiver {
     var delegate: DmdProtocol?
     var telnetClient: TelnetClient = TelnetClient()
     var kbQueue: ByteQueue = ByteQueue()
+    var pollCount: UInt64 = 0
     
     var dmdRunQueue = DispatchQueue(label: "dmd-runner")
     var uiUpdateQueue = DispatchQueue.main
@@ -39,6 +40,23 @@ class Dmd: TelnetReceiver {
 
     func reset() {
         dmd_reset();
+    }
+    
+    // Inject clipboard characters into the keyboard output stream,
+    // as if the user has typed them.
+    func pasteFromClipboard() {
+        for element in NSPasteboard.general.pasteboardItems! {
+            if let str: String = element.string(forType: NSPasteboard.PasteboardType(rawValue: "public.utf8-plain-text")) {
+                let byteArray = str.utf8.map { UInt8($0) }
+                for b in byteArray {
+                    // We allow pushing of any ASCII character,
+                    // including control characters.
+                    if (b < 0x80) {
+                        kbQueue.pushFront(b: b)
+                    }
+                }
+            }
+        }
     }
 
     func start() {
@@ -113,11 +131,23 @@ class Dmd: TelnetReceiver {
     }
     
     func runAndPoll() {
+        self.pollCount += 1;
         dmd_step_loop(1000)
         
-        // Handle keyboard input from the UI to the terminal
-        while (!self.kbQueue.isEmpty) {
-            dmd_rx_keyboard(self.kbQueue.popBack()!)
+        // Handle keyboard input from the UI to the terminal.
+        //
+        // NB: This pollCount check is a hack to workaround what looks like a
+        // bug in the dmd_core backend. It looks like rapid input to the
+        // dmd_rx_keyboard function can drop characters. To fix this on the
+        // back end, we should check to make sure that the character receive
+        // logic from the dmd_core internal keyboard queue is sound.
+        //
+        if self.pollCount >= 4 {
+            if (!self.kbQueue.isEmpty) {
+                dmd_rx_keyboard(self.kbQueue.popBack()!)
+            }
+            
+            self.pollCount = 0
         }
 
         // Handle keyboard output from the terminal to the UI

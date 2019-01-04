@@ -89,6 +89,17 @@
                                     </items>
                                 </menu>
                             </menuItem>
+                            <menuItem title="Edit" id="5Vf-sr-lav">
+                                <menu key="submenu" title="Edit" id="S7h-Wg-ErK">
+                                    <items>
+                                        <menuItem title="Paste" keyEquivalent="v" id="6Fr-0Q-DO1">
+                                            <connections>
+                                                <action selector="pasteFromClipboardWithSender:" target="Ady-hI-5gd" id="dEb-5Q-bBa"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
                             <menuItem title="Help" id="wpr-3q-Mcd">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
