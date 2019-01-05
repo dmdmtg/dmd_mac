@@ -17,9 +17,17 @@ struct Color {
 
 extension NSColor {
     func toColorStruct() -> Color {
-        return Color(r: UInt8(self.redComponent * 255.0),
-                     g: UInt8(self.greenComponent * 255.0),
-                     b: UInt8(self.blueComponent * 255.0))
+        if self.colorSpaceName == NSColorSpaceName.calibratedRGB {
+            return Color(r: UInt8(self.redComponent * 255.0),
+                         g: UInt8(self.greenComponent * 255.0),
+                         b: UInt8(self.blueComponent * 255.0))
+        } else {
+            // We need to convert the colorspace first
+            let rgbColor = self.usingColorSpace(NSColorSpace.sRGB)!
+            return Color(r: UInt8(rgbColor.redComponent * 255.0),
+                         g: UInt8(rgbColor.greenComponent * 255.0),
+                         b: UInt8(rgbColor.blueComponent * 255.0))
+        }
     }
 }
 

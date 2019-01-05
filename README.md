@@ -17,6 +17,11 @@ DMD 5620 terminal.
 
 ## ChangeLog
 
+### 1.4.1
+
+* Fixed a bug that caused the app to crash when custom colors 
+  were set using non-RGB colorspace.
+
 ### 1.4.0
 
 * Added clipboard paste functionality, accessible from the
