@@ -48,13 +48,13 @@ class TelnetClient: NSObject, GCDAsyncSocketDelegate {
     var txBuffer: Data = Data()
     var state: TelnetState = .data
     let validOptions = [OPT_BINARY, OPT_ECHO, OPT_SUPPRESS_GO_AHEAD]
-    
+
     func connect(host: String, port: UInt16) {
         if (asyncSocket != nil) {
             asyncSocket?.disconnect();
             asyncSocket = nil;
         }
-        
+
         self.asyncSocket = GCDAsyncSocket(delegate: self, delegateQueue: DispatchQueue.main)
         self.asyncSocket?.autoDisconnectOnClosedReadStream = true
         do {
@@ -63,12 +63,12 @@ class TelnetClient: NSObject, GCDAsyncSocketDelegate {
             print("Error: \(error)")
         }
     }
-    
+
     func disconnect() {
         self.asyncSocket?.disconnect()
         self.asyncSocket = nil
     }
-    
+
     func transmit(data: Data) {
         var transmitData = Data(capacity: data.count)
 
@@ -79,22 +79,22 @@ class TelnetClient: NSObject, GCDAsyncSocketDelegate {
                 transmitData.append(TelnetState.iac.rawValue)
             }
         }
-        
+
         self.asyncSocket?.write(transmitData, withTimeout: -1, tag: 2)
     }
-    
+
     @objc
     public func socketDidDisconnect(_ sock: GCDAsyncSocket, withError err: Error?) {
         delegate?.socketClosed(withError: err)
     }
-    
+
     @objc
     public func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port: UInt16) {
         // After connection, trigger an immediate read to
         // start consuming the Telnet stream.
         self.asyncSocket?.readData(withTimeout: -1, tag: 0)
     }
-    
+
     @objc
     public func socket(_ sock: GCDAsyncSocket, didRead data: Data, withTag tag: Int) {
         rxBuffer.removeAll(keepingCapacity: true)
@@ -140,7 +140,7 @@ class TelnetClient: NSObject, GCDAsyncSocketDelegate {
                 txBuffer.append(TelnetState.iac.rawValue)
                 txBuffer.append(TelnetState.wont_opt.rawValue)
                 txBuffer.append(b)
-                
+
                 state = .data
             case .do_opt:
                 if validOptions.contains(b) {
@@ -189,18 +189,19 @@ class TelnetClient: NSObject, GCDAsyncSocketDelegate {
                 break
             }
         })
-        
+
         // If we have built up a response due to IAC commands, send it.
         if (txBuffer.count > 0) {
             self.asyncSocket?.write(txBuffer, withTimeout: -1, tag: 1)
         }
-        
+
         // If we have parsed any receive data, send it on to our delegate.
         if (rxBuffer.count > 0) {
             delegate?.rxData(data: rxBuffer)
         }
-        
+
         // Keep consuming.
         self.asyncSocket?.readData(withTimeout: -1, tag: 0)
     }
 }
+

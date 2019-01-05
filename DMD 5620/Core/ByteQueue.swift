@@ -13,19 +13,19 @@ import Foundation
 //
 public struct ByteQueue {
     private var array = [UInt8]()
-    
+
     public var isEmpty: Bool {
         return array.isEmpty
     }
-    
+
     public var count: Int {
         return array.count
     }
-    
+
     public mutating func pushFront(b: UInt8) {
         array.insert(b, at: 0)
     }
-    
+
     public mutating func popBack() -> UInt8? {
         if array.isEmpty {
             return nil
@@ -34,3 +34,4 @@ public struct ByteQueue {
         }
     }
 }
+

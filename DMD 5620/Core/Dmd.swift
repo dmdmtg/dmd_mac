@@ -16,23 +16,23 @@ class Dmd: TelnetReceiver {
     var telnetClient: TelnetClient = TelnetClient()
     var kbQueue: ByteQueue = ByteQueue()
     var pollCount: UInt64 = 0
-    
+
     var dmdRunQueue = DispatchQueue(label: "dmd-runner")
     var uiUpdateQueue = DispatchQueue.main
-    
+
     var dmdRunner: DispatchSourceTimer?
     var uiRunner: DispatchSourceTimer?
-    
+
     init() {
         telnetClient.delegate = self
         reset();
     }
-    
+
     func connect(host: String, port: UInt16) {
         telnetClient.connect(host: host, port: port)
         delegate?.telnetConnected(host: host, port: port)
     }
-    
+
     func disconnect() {
         telnetClient.disconnect()
         delegate?.telnetDisconnected(withError: nil)
@@ -41,7 +41,7 @@ class Dmd: TelnetReceiver {
     func reset() {
         dmd_reset();
     }
-    
+
     // Inject clipboard characters into the keyboard output stream,
     // as if the user has typed them.
     func pasteFromClipboard() {
@@ -69,17 +69,17 @@ class Dmd: TelnetReceiver {
         })
 
         uiRunner = DispatchSource.makeTimerSource(flags: DispatchSource.TimerFlags(rawValue: 0), queue: uiUpdateQueue)
-        uiRunner?.schedule(deadline: .now() + .microseconds(34_000),
-                           repeating: .microseconds(34_000),
-                           leeway: .microseconds(5_000))
+        uiRunner?.schedule(deadline: .now() + .microseconds(33_300),
+                           repeating: .microseconds(33_300),
+                           leeway: .microseconds(300))
         uiRunner?.setEventHandler(handler: { () in
             self.updateDisplay()
         })
-        
+
         dmdRunner?.resume()
         uiRunner?.resume()
     }
-    
+
     func stop() {
         dmdRunner?.cancel()
         uiRunner?.cancel()
@@ -88,21 +88,21 @@ class Dmd: TelnetReceiver {
     // Used only for debugging.
     private func debugAtPoint(stepCount: UInt64) {
         var pc: UInt32 = 0
-        
+
         dmd_get_pc(&pc)
-        
+
         if (pc == 0x164e9) {
             print("[\(stepCount)] NAK: PS_BUSY");
         }
-        
+
         if (pc == 0x1654e) {
             print("[\(stepCount)] ACK: OK");
         }
-        
+
         if (pc == 0x16565) {
             print("[\(stepCount)] ACK: OK After Retry");
         }
-        
+
         if (pc == 0x16571) {
             print("[\(stepCount)] NAK: PC_OOUTSEQ");
         }
@@ -129,11 +129,11 @@ class Dmd: TelnetReceiver {
             print("[\(stepCount)] reply()");
         }
     }
-    
+
     func runAndPoll() {
         self.pollCount += 1;
         dmd_step_loop(1000)
-        
+
         // Handle keyboard input from the UI to the terminal.
         //
         // NB: This pollCount check is a hack to workaround what looks like a
@@ -146,7 +146,7 @@ class Dmd: TelnetReceiver {
             if (!self.kbQueue.isEmpty) {
                 dmd_rx_keyboard(self.kbQueue.popBack()!)
             }
-            
+
             self.pollCount = 0
         }
 
@@ -156,7 +156,7 @@ class Dmd: TelnetReceiver {
         if (dmd_kb_tx_poll(&kbChar) == 0) {
             // Successful poll. We check here for a status bit set by
             // the ASCII bell character (^G), and ring the bell if set
-            
+
             if ((kbChar & 0x8) != 0) {
                 NSSound.beep()
             }
@@ -173,22 +173,22 @@ class Dmd: TelnetReceiver {
             self.telnetClient.transmit(data: txData)
         }
     }
-    
+
     func updateDisplay() {
         self.delegate?.updateView(self, data: dmd_video_ram()!)
     }
-    
+
     func kbChar(c: UInt8) {
         kbQueue.pushFront(b: c)
     }
-    
+
     // Receive data from the Telnet Client
     func rxData(data: Data) {
         data.forEach { (b) in
             dmd_rx_char(b)
         }
     }
-    
+
     func socketClosed(withError err: Error?) {
         delegate?.telnetDisconnected(withError: err)
     }
@@ -199,3 +199,4 @@ protocol DmdProtocol {
     func telnetConnected(host: String, port: UInt16)
     func telnetDisconnected(withError err: Error?)
 }
+

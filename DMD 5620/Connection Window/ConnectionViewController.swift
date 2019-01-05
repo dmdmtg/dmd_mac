@@ -13,7 +13,7 @@ class ConnectionViewController: NSViewController {
     @IBOutlet weak var port: NSTextField!
     @IBOutlet weak var connectButton: NSButton!
     @IBOutlet weak var cancelButton: NSButton!
-    
+
     @IBAction func connect(sender: NSButton) {
         let h = hostName.stringValue.trimmingCharacters(in: NSCharacterSet.whitespacesAndNewlines)
         let p = UInt16(port.intValue)
@@ -34,17 +34,17 @@ class ConnectionViewController: NSViewController {
         appDelegate.disconnectMenuItem.isEnabled = true
         self.view.window?.close()
     }
-    
+
     @IBAction func cancel(sender: NSButton) {
         self.view.window?.close()
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let appDelegate = NSApplication.shared.delegate as! AppDelegate
         appDelegate.connectMenuItem.isEnabled = false
     }
-    
+
     override func viewDidDisappear() {
         super.viewDidDisappear()
         let appDelegate = NSApplication.shared.delegate as! AppDelegate
@@ -53,3 +53,4 @@ class ConnectionViewController: NSViewController {
         }
     }
 }
+

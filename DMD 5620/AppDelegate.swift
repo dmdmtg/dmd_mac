@@ -10,15 +10,15 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-    
+
     let NVRAM_SIZE = 8192
     let NVRAM_NAME = "nvram.bin"
-    
+
     @IBOutlet var connectMenuItem: NSMenuItem!
     @IBOutlet var disconnectMenuItem: NSMenuItem!
-    
+
     var dmd = Dmd()
-    
+
     func applicationDirectory() -> URL? {
         let fm = FileManager.default
         var appSupportDirs = fm.urls(for: .applicationDirectory, in: .userDomainMask)
@@ -30,10 +30,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         return nil
     }
-    
+
     func applicationWillFinishLaunching(_ notification: Notification) {
         let appDir = applicationDirectory()
-        
+
         if (appDir != nil) {
             var nvramFile = appDir!
             nvramFile.appendPathComponent(NVRAM_NAME)
@@ -44,20 +44,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 dmd_set_nvram(&buffer)
             }
         }
-        
+
         // Tell the DMD View to load preferences
         NotificationCenter.default.post(name: .preferencesUpdate, object: nil)
-        
+
         dmd.start()
     }
-    
+
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
         let appDir = applicationDirectory()
-        
+
         if (appDir != nil) {
             var nvramFile = appDir!
             nvramFile.appendPathComponent(NVRAM_NAME)
@@ -66,12 +66,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             let data = Data(bytes: &buffer, count: NVRAM_SIZE)
             try! data.write(to: nvramFile)
         }
-        
+
         dmd.stop()
     }
-    
+
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         return true
     }
 }
+
 

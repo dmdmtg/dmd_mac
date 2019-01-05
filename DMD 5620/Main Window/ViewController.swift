@@ -11,13 +11,13 @@ import Cocoa
 class ViewController: NSViewController {
     var dmd: Dmd?
     lazy var window: NSWindow = self.view.window!
-    
+
     let windowTitleConnectedHead = "DMD 5620 (Connected to "
     let windowTitleConnectedTail = ")"
     let windowTitleDisconnected = "DMD 5620 (Disconnected)"
-    
+
     @IBOutlet weak var dmdView: DmdView?
-    
+
     @IBAction func disconnect(sender: NSMenuItem) {
         dmd?.disconnect()
     }
@@ -25,14 +25,14 @@ class ViewController: NSViewController {
     @IBAction func reset(sender: NSMenuItem) {
         dmd?.reset()
     }
-    
+
     @IBAction func pasteFromClipboard(sender: NSMenuItem) {
         dmd?.pasteFromClipboard()
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         view.window?.title = windowTitleDisconnected
 
         NSEvent.addLocalMonitorForEvents(matching: .keyDown, handler: { (event) in
@@ -48,7 +48,7 @@ class ViewController: NSViewController {
             }
             return event
         })
-        
+
         NSEvent.addLocalMonitorForEvents(matching: [.rightMouseDragged, .leftMouseDragged, .otherMouseDragged], handler: { (event) in
             if (event.windowNumber == self.window.windowNumber) {
                 self.mouseMoved(with: event)
@@ -71,17 +71,17 @@ class ViewController: NSViewController {
         })
 
         let appDelegate = NSApplication.shared.delegate as! AppDelegate
-        
+
         dmd = appDelegate.dmd
         dmd?.delegate = self
     }
 
     override var representedObject: Any? {
         didSet {
-        // Update the view, if already loaded.
+            // Update the view, if already loaded.
         }
     }
-    
+
     override func keyDown(with event: NSEvent) {
         // Return early if this is an OS handled key
         if (event.modifierFlags.contains(.command) || event.modifierFlags.contains(.option)) {
@@ -89,7 +89,7 @@ class ViewController: NSViewController {
         }
 
         let chars = event.characters!.utf8.map{ UInt8($0) }
-        
+
         // Match non-ASCII characters
         switch (event.keyCode) {
         case 122: // F1
@@ -148,10 +148,9 @@ class ViewController: NSViewController {
             return
         }
 
-        // The 'y' coordinate is always 1 based. macOS is weird.
-        dmd_mouse_move(UInt16(eventLocation.x), UInt16(eventLocation.y - 1))
+        dmd_mouse_move(UInt16(eventLocation.x), UInt16(eventLocation.y))
     }
-    
+
     func getMouseButton(event: NSEvent) -> UInt8 {
         // Button events on macOS are weird. Left = 0, Right = 1, Middle = 2
         switch event.buttonNumber {
@@ -165,21 +164,21 @@ class ViewController: NSViewController {
             return 0
         }
     }
-    
+
     override func mouseDown(with event: NSEvent) {
         let button = getMouseButton(event: event)
         dmd_mouse_down(button)
     }
-    
+
     override func mouseUp(with event: NSEvent) {
         let button = getMouseButton(event: event)
         dmd_mouse_up(button)
     }
-    
+
     func setDisconnecteTitle() {
         view.window?.title = windowTitleDisconnected
     }
-    
+
     func setConnectedTitle(host: String, port: UInt16) {
         view.window?.title =
             String(format: "\(windowTitleConnectedHead) \(host):\(port)\(windowTitleConnectedTail)", host, port)
@@ -191,7 +190,7 @@ extension ViewController: DmdProtocol {
         dmdView?.setVideoRam(data: data);
         dmdView?.updateImage()
     }
-    
+
     func telnetConnected(host: String, port: UInt16) {
         let appDelegate = NSApplication.shared.delegate as! AppDelegate
         appDelegate.connectMenuItem.isEnabled = false
@@ -204,10 +203,11 @@ extension ViewController: DmdProtocol {
         appDelegate.connectMenuItem.isEnabled = true
         appDelegate.disconnectMenuItem.isEnabled = false
         setDisconnecteTitle()
-        
+
         if (err != nil) {
             let alert: NSAlert = NSAlert(error: err!)
             alert.runModal()
         }
     }
 }
+

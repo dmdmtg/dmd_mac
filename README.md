@@ -17,6 +17,12 @@ DMD 5620 terminal.
 
 ## ChangeLog
 
+### 1.5.0
+
+* Added a new visual effect: You can optionally enable simulation of phosphor
+  permanence on the screen. This makes the terminal much more realistic
+  looking, at the expense of using more CPU to render the images.
+
 ### 1.4.1
 
 * Fixed a bug that caused the app to crash when custom colors 

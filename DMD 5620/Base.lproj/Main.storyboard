@@ -242,7 +242,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cfK-W4-xga">
-                                            <rect key="frame" x="19" y="93" width="69" height="17"/>
+                                            <rect key="frame" x="19" y="115" width="69" height="17"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Dark Color" id="S0C-d0-YLV">
                                                 <font key="font" usesAppearanceFont="YES"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -250,7 +250,7 @@
                                             </textFieldCell>
                                         </textField>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gd6-Ib-WhE">
-                                            <rect key="frame" x="17" y="54" width="71" height="17"/>
+                                            <rect key="frame" x="17" y="76" width="71" height="17"/>
                                             <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Light Color" id="3tu-ux-ygw">
                                                 <font key="font" metaFont="system"/>
                                                 <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -258,21 +258,21 @@
                                             </textFieldCell>
                                         </textField>
                                         <colorWell enabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="snQ-qv-xhb" userLabel="Dark Color Well">
-                                            <rect key="frame" x="104" y="90" width="44" height="23"/>
+                                            <rect key="frame" x="104" y="112" width="44" height="23"/>
                                             <color key="color" red="0.047058823529411764" green="0.047058823529411764" blue="0.047058823529411764" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
                                                 <action selector="darkColorChangedWithSource:" target="bfz-9T-jeF" id="YeS-TO-Bfq"/>
                                             </connections>
                                         </colorWell>
                                         <colorWell enabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vQt-ca-bvQ" userLabel="Light Color Well">
-                                            <rect key="frame" x="104" y="51" width="44" height="23"/>
+                                            <rect key="frame" x="104" y="73" width="44" height="23"/>
                                             <color key="color" red="0.0" green="0.97647058823529409" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
                                                 <action selector="lightColorChangedWithSource:" target="bfz-9T-jeF" id="loQ-KR-Y8v"/>
                                             </connections>
                                         </colorWell>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Itz-kN-YpZ">
-                                            <rect key="frame" x="169" y="92" width="93" height="18"/>
+                                            <rect key="frame" x="169" y="114" width="93" height="18"/>
                                             <buttonCell key="cell" type="check" title="Use Default" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="sNC-z3-de3">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -282,7 +282,7 @@
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5Hm-tH-72Z">
-                                            <rect key="frame" x="169" y="53" width="93" height="18"/>
+                                            <rect key="frame" x="169" y="75" width="93" height="18"/>
                                             <buttonCell key="cell" type="check" title="Use Default" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="qHs-lW-iJ4">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="system"/>
@@ -291,26 +291,48 @@
                                                 <action selector="useLightDefaultColorWithSource:" target="bfz-9T-jeF" id="iOD-1p-Ccg"/>
                                             </connections>
                                         </button>
+                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZgS-vv-MKh">
+                                            <rect key="frame" x="34" y="40" width="210" height="18"/>
+                                            <buttonCell key="cell" type="check" title="Simulate phosphor persistence" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jA5-Iq-mzl">
+                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="simulatePhosphorChangedWithSource:" target="bfz-9T-jeF" id="CJg-mu-NLt"/>
+                                            </connections>
+                                        </button>
+                                        <textField toolTip="Simulating phosphor persistence uses significantly more CPU because more frames have to be drawn for a smooth effect." horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mQK-kX-XiK">
+                                            <rect key="frame" x="90" y="20" width="99" height="14"/>
+                                            <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" alignment="center" title="(Uses more CPU)" id="O4W-qA-Xd9">
+                                                <font key="font" metaFont="smallSystem"/>
+                                                <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="vQt-ca-bvQ" firstAttribute="top" secondItem="snQ-qv-xhb" secondAttribute="bottom" constant="16" id="2fj-5d-0jQ"/>
-                                        <constraint firstItem="cfK-W4-xga" firstAttribute="baseline" secondItem="Itz-kN-YpZ" secondAttribute="baseline" id="4S9-Wg-5Wc"/>
-                                        <constraint firstItem="snQ-qv-xhb" firstAttribute="top" secondItem="d4m-Sh-aiO" secondAttribute="top" constant="37" id="9NE-EJ-yfK"/>
-                                        <constraint firstItem="snQ-qv-xhb" firstAttribute="leading" secondItem="cfK-W4-xga" secondAttribute="trailing" constant="18" id="A45-2J-0rP"/>
-                                        <constraint firstAttribute="trailing" secondItem="Itz-kN-YpZ" secondAttribute="trailing" constant="18" id="FZD-ay-jNz"/>
-                                        <constraint firstItem="cfK-W4-xga" firstAttribute="centerY" secondItem="snQ-qv-xhb" secondAttribute="centerY" id="JXu-GJ-IOh"/>
-                                        <constraint firstItem="snQ-qv-xhb" firstAttribute="trailing" secondItem="vQt-ca-bvQ" secondAttribute="trailing" id="JmT-Rr-bnl"/>
-                                        <constraint firstItem="gd6-Ib-WhE" firstAttribute="centerY" secondItem="vQt-ca-bvQ" secondAttribute="centerY" id="Lrd-Yh-Lga"/>
-                                        <constraint firstItem="cfK-W4-xga" firstAttribute="leading" secondItem="d4m-Sh-aiO" secondAttribute="leading" constant="21" id="MYj-Mv-Kro"/>
-                                        <constraint firstAttribute="trailing" secondItem="5Hm-tH-72Z" secondAttribute="trailing" constant="18" id="Q2V-Vk-kDO"/>
-                                        <constraint firstItem="cfK-W4-xga" firstAttribute="trailing" secondItem="gd6-Ib-WhE" secondAttribute="trailing" id="QpJ-jb-jj7"/>
-                                        <constraint firstItem="snQ-qv-xhb" firstAttribute="leading" secondItem="vQt-ca-bvQ" secondAttribute="leading" id="S8J-Od-3iR"/>
-                                        <constraint firstItem="Itz-kN-YpZ" firstAttribute="leading" secondItem="snQ-qv-xhb" secondAttribute="trailing" constant="23" id="T9N-83-Skh"/>
-                                        <constraint firstItem="gd6-Ib-WhE" firstAttribute="leading" secondItem="d4m-Sh-aiO" secondAttribute="leading" constant="19" id="VlC-Zy-j5k"/>
-                                        <constraint firstItem="gd6-Ib-WhE" firstAttribute="top" secondItem="cfK-W4-xga" secondAttribute="bottom" constant="22" id="cOV-Oa-6Cs"/>
-                                        <constraint firstItem="Itz-kN-YpZ" firstAttribute="leading" secondItem="5Hm-tH-72Z" secondAttribute="leading" id="fpQ-f8-kNl"/>
-                                        <constraint firstItem="cfK-W4-xga" firstAttribute="top" secondItem="d4m-Sh-aiO" secondAttribute="top" constant="40" id="vyT-Cy-JEp"/>
-                                        <constraint firstItem="gd6-Ib-WhE" firstAttribute="baseline" secondItem="5Hm-tH-72Z" secondAttribute="baseline" id="yVp-3B-ssE"/>
+                                        <constraint firstItem="cfK-W4-xga" firstAttribute="baseline" secondItem="Itz-kN-YpZ" secondAttribute="baseline" id="2tL-b4-3RE"/>
+                                        <constraint firstItem="Itz-kN-YpZ" firstAttribute="leading" secondItem="5Hm-tH-72Z" secondAttribute="leading" id="5Ev-Jy-uei"/>
+                                        <constraint firstItem="cfK-W4-xga" firstAttribute="leading" secondItem="d4m-Sh-aiO" secondAttribute="leading" constant="21" id="6oz-6I-WgJ"/>
+                                        <constraint firstItem="Itz-kN-YpZ" firstAttribute="leading" secondItem="snQ-qv-xhb" secondAttribute="trailing" constant="23" id="92E-aP-5IU"/>
+                                        <constraint firstItem="cfK-W4-xga" firstAttribute="trailing" secondItem="gd6-Ib-WhE" secondAttribute="trailing" id="AI5-I7-gaq"/>
+                                        <constraint firstItem="snQ-qv-xhb" firstAttribute="leading" secondItem="vQt-ca-bvQ" secondAttribute="leading" id="DT1-5P-Me0"/>
+                                        <constraint firstItem="vQt-ca-bvQ" firstAttribute="top" secondItem="snQ-qv-xhb" secondAttribute="bottom" constant="16" id="Efp-DK-1Gn"/>
+                                        <constraint firstItem="gd6-Ib-WhE" firstAttribute="centerY" secondItem="vQt-ca-bvQ" secondAttribute="centerY" id="FIA-N7-QGh"/>
+                                        <constraint firstItem="gd6-Ib-WhE" firstAttribute="leading" secondItem="d4m-Sh-aiO" secondAttribute="leading" constant="19" id="MC7-G9-gJQ"/>
+                                        <constraint firstItem="cfK-W4-xga" firstAttribute="centerY" secondItem="snQ-qv-xhb" secondAttribute="centerY" id="Mi9-sk-OaD"/>
+                                        <constraint firstItem="gd6-Ib-WhE" firstAttribute="top" secondItem="cfK-W4-xga" secondAttribute="bottom" constant="22" id="NJp-D5-OLB"/>
+                                        <constraint firstItem="snQ-qv-xhb" firstAttribute="trailing" secondItem="vQt-ca-bvQ" secondAttribute="trailing" id="Nh9-Cp-9ul"/>
+                                        <constraint firstItem="ZgS-vv-MKh" firstAttribute="top" secondItem="gd6-Ib-WhE" secondAttribute="bottom" constant="20" id="QQw-pi-1fc"/>
+                                        <constraint firstItem="mQK-kX-XiK" firstAttribute="top" secondItem="ZgS-vv-MKh" secondAttribute="bottom" constant="8" symbolic="YES" id="Ral-Vn-ZaR"/>
+                                        <constraint firstItem="ZgS-vv-MKh" firstAttribute="centerX" secondItem="d4m-Sh-aiO" secondAttribute="centerX" id="Rkd-6i-2gN"/>
+                                        <constraint firstItem="gd6-Ib-WhE" firstAttribute="baseline" secondItem="5Hm-tH-72Z" secondAttribute="baseline" id="XDb-Ro-5ZM"/>
+                                        <constraint firstAttribute="trailing" secondItem="5Hm-tH-72Z" secondAttribute="trailing" constant="18" id="cLh-KR-sMV"/>
+                                        <constraint firstItem="mQK-kX-XiK" firstAttribute="centerX" secondItem="ZgS-vv-MKh" secondAttribute="centerX" id="eNq-Z4-Gol"/>
+                                        <constraint firstItem="ZgS-vv-MKh" firstAttribute="top" secondItem="vQt-ca-bvQ" secondAttribute="bottom" constant="17" id="mx6-KG-Ve9"/>
+                                        <constraint firstItem="snQ-qv-xhb" firstAttribute="top" secondItem="d4m-Sh-aiO" secondAttribute="top" constant="15" id="s1j-7Q-vhk"/>
+                                        <constraint firstItem="snQ-qv-xhb" firstAttribute="leading" secondItem="cfK-W4-xga" secondAttribute="trailing" constant="18" id="usC-hs-oPY"/>
+                                        <constraint firstAttribute="trailing" secondItem="Itz-kN-YpZ" secondAttribute="trailing" constant="18" id="xAY-Ks-Dy8"/>
                                     </constraints>
                                 </view>
                             </tabViewItem>
@@ -321,6 +343,7 @@
                         <outlet property="darkColorWell" destination="snQ-qv-xhb" id="2cb-uT-7Bm"/>
                         <outlet property="lightColorDefault" destination="5Hm-tH-72Z" id="6bn-Jd-Tfh"/>
                         <outlet property="lightColorWell" destination="vQt-ca-bvQ" id="seM-xf-9pE"/>
+                        <outlet property="simulatePhosphor" destination="ZgS-vv-MKh" id="OXj-gY-0da"/>
                     </connections>
                 </viewController>
                 <customObject id="aun-BA-3OJ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

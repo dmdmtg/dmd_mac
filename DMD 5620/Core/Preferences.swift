@@ -21,7 +21,7 @@ extension NSColor {
             return nil
         }
     }
-    
+
     static func fromData(data: Data) -> NSColor? {
         do {
             if #available(OSX 10.13, *) {
@@ -37,27 +37,29 @@ extension NSColor {
 
 class Preferences {
     private var settings: UserDefaults = UserDefaults.standard
-    
+
     public static let defaultLightColor = NSColor(calibratedRed: 0.0, green: 0.98, blue: 0.0, alpha: 1.0)
     public static let defaultDarkColor = NSColor(calibratedRed: 0.15, green: 0.15, blue: 0.15, alpha: 1.0)
     public static let lightColorDefaultKey = "dmd.lightcolor.default"
     public static let darkColorDefaultKey = "dmd.darkcolor.default"
     public static let lightColorKey = "dmd.lightcolor.color"
     public static let darkColorKey = "dmd.darkcolor.color"
-    
+    public static let simulatePhosphorKey = "dmd.phosphor.enabled"
+
     public static let global = Preferences()
-    
+
     private init() {
         settings.register(defaults: [Preferences.lightColorDefaultKey : true])
         settings.register(defaults: [Preferences.darkColorDefaultKey : true])
         settings.register(defaults: [Preferences.lightColorKey : Preferences.defaultLightColor.toData()!])
         settings.register(defaults: [Preferences.darkColorKey : Preferences.defaultDarkColor.toData()!])
+        settings.register(defaults: [Preferences.simulatePhosphorKey : false])
     }
-    
+
     var lightColor: NSColor? {
         get {
             let data = settings.data(forKey: Preferences.lightColorKey)
-            
+
             if (data != nil) {
                 return NSColor.fromData(data: data!)
             } else {
@@ -66,7 +68,7 @@ class Preferences {
         }
         set(color) {
             let data = color?.toData()
-            
+
             if (data != nil) {
                 settings.set(data, forKey: Preferences.lightColorKey)
                 settings.synchronize()
@@ -77,7 +79,7 @@ class Preferences {
     var darkColor: NSColor? {
         get {
             let data = settings.data(forKey: Preferences.darkColorKey)
-            
+
             if (data != nil) {
                 return NSColor.fromData(data: data!)
             } else {
@@ -86,7 +88,7 @@ class Preferences {
         }
         set(color) {
             let data = color?.toData()
-            
+
             if (data != nil) {
                 settings.set(data, forKey: Preferences.darkColorKey)
                 settings.synchronize()
@@ -103,7 +105,7 @@ class Preferences {
             settings.synchronize()
         }
     }
-    
+
     var useDefaultDarkColor: Bool {
         get {
             return settings.bool(forKey: Preferences.darkColorDefaultKey)
@@ -113,4 +115,15 @@ class Preferences {
             settings.synchronize()
         }
     }
+
+    var simulatePhosphor: Bool {
+        get {
+            return settings.bool(forKey: Preferences.simulatePhosphorKey)
+        }
+        set(val) {
+            settings.set(val, forKey: Preferences.simulatePhosphorKey)
+            settings.synchronize()
+        }
+    }
 }
+

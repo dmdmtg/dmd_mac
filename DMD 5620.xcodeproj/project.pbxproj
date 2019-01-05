@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5D278C9A21E141EC00B3C630 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 5D278C9921E141EC00B3C630 /* README.md */; };
 		5DA0C35A21CF0AF300C40016 /* TelnetClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA0C35921CF0AF300C40016 /* TelnetClient.swift */; };
 		5DA21E6821CF074B00A31B4F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA21E6721CF074B00A31B4F /* AppDelegate.swift */; };
 		5DA21E6A21CF074B00A31B4F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DA21E6921CF074B00A31B4F /* ViewController.swift */; };
@@ -24,6 +25,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5D278C9921E141EC00B3C630 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		5DA0C35921CF0AF300C40016 /* TelnetClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TelnetClient.swift; sourceTree = "<group>"; };
 		5DA21E6421CF074B00A31B4F /* DMD 5620.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "DMD 5620.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DA21E6721CF074B00A31B4F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -83,6 +85,7 @@
 		5DA21E6621CF074B00A31B4F /* DMD 5620 */ = {
 			isa = PBXGroup;
 			children = (
+				5D278C9921E141EC00B3C630 /* README.md */,
 				5DA837EB21D6DBD500C2B1DC /* DMD 5620.entitlements */,
 				5DA21E7C21CF07EE00A31B4F /* bridge_header.h */,
 				5DA21E6721CF074B00A31B4F /* AppDelegate.swift */,
@@ -237,6 +240,7 @@
 			files = (
 				5DA21E6C21CF074C00A31B4F /* Assets.xcassets in Resources */,
 				5DA837ED21D6E2FB00C2B1DC /* Dmd.help in Resources */,
+				5D278C9A21E141EC00B3C630 /* README.md in Resources */,
 				5DA21E6F21CF074C00A31B4F /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
