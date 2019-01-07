@@ -14,6 +14,7 @@ class PreferencesViewController: NSViewController {
     @IBOutlet var darkColorDefault: NSButton!
     @IBOutlet var lightColorDefault: NSButton!
     @IBOutlet var simulatePhosphor: NSButton!
+    @IBOutlet var phosphorPersistence: NSSlider!
 
     @IBAction func useLightDefaultColor(source: NSButton) {
         lightColorWell.isEnabled = (source.state == .off)
@@ -38,7 +39,18 @@ class PreferencesViewController: NSViewController {
     }
 
     @IBAction func simulatePhosphorChanged(source: NSButton) {
-        Preferences.global.simulatePhosphor = (source.state == .on)
+        if (source.state == .on) {
+            Preferences.global.simulatePhosphor = true
+            phosphorPersistence.isEnabled = true
+        } else {
+            Preferences.global.simulatePhosphor = false
+            phosphorPersistence.isEnabled = false
+        }
+        applyPreferences()
+    }
+
+    @IBAction func phosphorPersistenceChanged(source: NSSlider) {
+        Preferences.global.phosphorPersistence = source.integerValue
         applyPreferences()
     }
 
@@ -72,7 +84,15 @@ class PreferencesViewController: NSViewController {
             lightColorWell.isEnabled = true
         }
 
-        simulatePhosphor.state = Preferences.global.simulatePhosphor ? .on : .off
+        phosphorPersistence.integerValue = Preferences.global.phosphorPersistence
+
+        if (Preferences.global.simulatePhosphor) {
+            simulatePhosphor.state = .on
+            phosphorPersistence.isEnabled = true
+        } else {
+            simulatePhosphor.state = .off
+            phosphorPersistence.isEnabled = false
+        }
     }
 }
 

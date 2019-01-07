@@ -19,7 +19,7 @@ struct DmdColor {
             return to.r
         }
 
-        let fromRed = CGFloat(self.r)
+        let fromRed = CGFloat(r)
         let toRed = CGFloat(to.r)
 
         return UInt8(((1.0 - percent) * (toRed - fromRed)) + fromRed)
@@ -30,7 +30,7 @@ struct DmdColor {
             return to.g
         }
 
-        let fromGreen = CGFloat(self.g)
+        let fromGreen = CGFloat(g)
         let toGreen = CGFloat(to.g)
 
         return UInt8(((1.0 - percent) * (toGreen - fromGreen)) + fromGreen)
@@ -41,7 +41,7 @@ struct DmdColor {
             return to.b
         }
 
-        let fromBlue = CGFloat(self.b)
+        let fromBlue = CGFloat(b)
         let toBlue = CGFloat(to.b)
 
         return UInt8(((1.0 - percent) * (toBlue - fromBlue)) + fromBlue)
@@ -56,12 +56,12 @@ extension DmdColor: Equatable {
 
 extension NSColor {
     func asDmdColor() -> DmdColor {
-        if (self.colorSpaceName == .calibratedRGB) {
-            return DmdColor(r: UInt8(self.redComponent * 255.0),
-                            g: UInt8(self.greenComponent * 255.0),
-                            b: UInt8(self.blueComponent * 255.0))
+        if (colorSpaceName == .calibratedRGB) {
+            return DmdColor(r: UInt8(redComponent * 255.0),
+                            g: UInt8(greenComponent * 255.0),
+                            b: UInt8(blueComponent * 255.0))
         } else {
-            let rgbColor = self.usingColorSpace(.sRGB)!
+            let rgbColor = usingColorSpace(.sRGB)!
             return DmdColor(r: UInt8(rgbColor.redComponent * 255.0),
                             g: UInt8(rgbColor.greenComponent * 255.0),
                             b: UInt8(rgbColor.blueComponent * 255.0))
@@ -88,6 +88,8 @@ class DmdView: NSView {
 
     var imageChanged = false
     var preferencesUpdated = false
+
+    var fadePercent = CGFloat(Preferences.defaultPhosphorPersistence) / 100.0
 
     var ioSurface: IOSurface!
 
@@ -129,9 +131,9 @@ class DmdView: NSView {
                                                .pixelFormat: pixelFormat])
         }
 
-        self.wantsLayer = true
-        self.layer!.shouldRasterize = true
-        self.layer!.contents = ioSurface
+        wantsLayer = true
+        layer!.shouldRasterize = true
+        layer!.contents = ioSurface
     }
 
     // We've received notice that the preferences have changed.
@@ -140,31 +142,33 @@ class DmdView: NSView {
         let lightColorDefault = Preferences.global.useDefaultLightColor
 
         if (darkColorDefault) {
-            self.darkColor = Preferences.defaultDarkColor.asDmdColor()
+            darkColor = Preferences.defaultDarkColor.asDmdColor()
         } else {
-            self.darkColor = Preferences.global.darkColor!.asDmdColor()
+            darkColor = Preferences.global.darkColor!.asDmdColor()
         }
 
         if (lightColorDefault) {
-            self.lightColor = Preferences.defaultLightColor.asDmdColor()
+            lightColor = Preferences.defaultLightColor.asDmdColor()
         } else {
-            self.lightColor = Preferences.global.lightColor!.asDmdColor()
+            lightColor = Preferences.global.lightColor!.asDmdColor()
         }
 
-        self.simulatePhosphor = Preferences.global.simulatePhosphor
+        simulatePhosphor = Preferences.global.simulatePhosphor
 
-        if (self.simulatePhosphor) {
+        if (simulatePhosphor) {
             // Reset the state of the fade map
             for i in 0 ..< fadeMap.count {
                 fadeMap[i] = 0.0
             }
         }
 
-        self.preferencesUpdated = true
+        fadePercent = CGFloat(Preferences.global.phosphorPersistence) / 100.0
+
+        preferencesUpdated = true
     }
 
     func setVideoRam(data: UnsafeMutablePointer<UInt8>) {
-        self.videoRam = [UInt8](UnsafeBufferPointer(start: data, count: 100 * 1024))
+        videoRam = [UInt8](UnsafeBufferPointer(start: data, count: 100 * 1024))
     }
 
     override func performKeyEquivalent(with event: NSEvent) -> Bool {
@@ -222,7 +226,7 @@ class DmdView: NSView {
                             buf.storeBytes(of: fgColor.bFadedToward(percent: fadeMap[fadeOffset], to: bgColor), as: UInt8.self)
                             buf += 1
                             if (fadeMap[fadeOffset] > 0.05) {
-                                fadeMap[fadeOffset] *= 0.90
+                                fadeMap[fadeOffset] *= fadePercent
                             } else {
                                 fadeMap[fadeOffset] = 0.0
                             }
@@ -305,7 +309,7 @@ class DmdView: NSView {
             bgColor = darkColor
         }
 
-        if (self.simulatePhosphor) {
+        if (simulatePhosphor) {
             redrawRawWithFade(fgColor: fgColor, bgColor: bgColor)
         } else {
             redrawRawWithoutFade(fgColor: fgColor, bgColor: bgColor)
@@ -313,7 +317,7 @@ class DmdView: NSView {
 
         // To force the update of the layer, we have to clear out
         // the contents and reset them. Crazy! Apple is CRAZY!
-        self.layer?.contents = nil
-        self.layer?.contents = ioSurface
+        layer?.contents = nil
+        layer?.contents = ioSurface
     }
 }
