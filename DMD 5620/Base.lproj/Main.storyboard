@@ -159,24 +159,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="800" height="1024"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JbD-8Q-yXK" customClass="DmdView" customModule="DMD_5620" customModuleProvider="target">
+                            <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KRF-su-AFp" customClass="DmdView" customModule="DMD_5620" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="800" height="1024"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t7U-cD-4jw">
-                                        <rect key="frame" x="0.0" y="0.0" width="800" height="1024"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="yDm-oN-K4c"/>
-                                    </imageView>
-                                </subviews>
-                                <connections>
-                                    <outlet property="imageView" destination="t7U-cD-4jw" id="S9D-wT-4Ca"/>
-                                </connections>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             </customView>
                         </subviews>
                     </view>
                     <connections>
-                        <outlet property="dmdView" destination="JbD-8Q-yXK" id="cED-qA-vtg"/>
+                        <outlet property="dmdView" destination="KRF-su-AFp" id="sSW-uL-wkv"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

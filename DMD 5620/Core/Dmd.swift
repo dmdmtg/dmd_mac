@@ -71,7 +71,7 @@ class Dmd: TelnetReceiver {
         uiRunner = DispatchSource.makeTimerSource(flags: DispatchSource.TimerFlags(rawValue: 0), queue: uiUpdateQueue)
         uiRunner?.schedule(deadline: .now() + .microseconds(33_300),
                            repeating: .microseconds(33_300),
-                           leeway: .microseconds(300))
+                           leeway: .microseconds(1_000))
         uiRunner?.setEventHandler(handler: { () in
             self.updateDisplay()
         })

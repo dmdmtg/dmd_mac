@@ -74,9 +74,6 @@ extension Notification.Name {
 }
 
 class DmdView: NSView {
-    @IBOutlet weak var imageView: NSImageView!
-
-    var lastVideoRam: Array<UInt8>?
     var videoRam: Array<UInt8> = Array(repeating: 0, count: 100 * 1024)
     var raw: Array<UInt8> = Array(repeating: 0, count: 800 * 1024 * 4)
 
@@ -92,21 +89,49 @@ class DmdView: NSView {
     var imageChanged = false
     var preferencesUpdated = false
 
+    var ioSurface: IOSurface!
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addObserver()
+        commonSetup()
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        addObserver()
+        commonSetup()
     }
 
-    private func addObserver() {
+    private func commonSetup() {
+
+        var pixelFormat: UInt32 = 0
+        for c in "RGBA".utf8 {
+            pixelFormat *= 256
+            pixelFormat += UInt32(c)
+        }
+
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(onDidReceivePreferencesUpdate(_:)),
                                                name: .preferencesUpdate,
                                                object: nil)
+
+        if #available(OSX 10.14, *) {
+            ioSurface = IOSurface(properties: [.width: 800,
+                                               .height: 1024,
+                                               .bytesPerElement: 4,
+                                               .bytesPerRow: 800 * 4,
+                                               .allocSize: 800 * 1024 * 4,
+                                               .pixelFormat: pixelFormat])
+        } else {
+            ioSurface = IOSurface(properties: [.width: 800,
+                                               .height: 1024,
+                                               .bytesPerElement: 4,
+                                               .bytesPerRow: 800 * 4,
+                                               .pixelFormat: pixelFormat])
+        }
+
+        self.wantsLayer = true
+        self.layer!.shouldRasterize = true
+        self.layer!.contents = ioSurface
     }
 
     // We've received notice that the preferences have changed.
@@ -167,8 +192,13 @@ class DmdView: NSView {
 
     private func redrawRawWithFade(fgColor: DmdColor, bgColor: DmdColor) {
         var fromOffset = 0
-        var toOffset = 0
         var fadeOffset = 0
+
+        var seed: UInt32 = 0
+
+        ioSurface.lock(options: [], seed: &seed)
+
+        var buf = ioSurface.baseAddress
 
         for _ in 0 ..< 1024 {
             for _ in 0 ..< 100 {
@@ -178,38 +208,55 @@ class DmdView: NSView {
                     if (bit == 0) {
                         if (bgColor == lightColor) {
                             fadeMap[fadeOffset] = 1.0
-                            raw[toOffset] = bgColor.r
-                            raw[toOffset + 1] = bgColor.g
-                            raw[toOffset + 2] = bgColor.b
+                            buf.storeBytes(of: bgColor.r, as: UInt8.self)
+                            buf += 1
+                            buf.storeBytes(of: bgColor.g, as: UInt8.self)
+                            buf += 1
+                            buf.storeBytes(of: bgColor.b, as: UInt8.self)
+                            buf += 1
                         } else {
-                            raw[toOffset] = fgColor.rFadedToward(percent: fadeMap[fadeOffset], to: bgColor)
-                            raw[toOffset + 1] = fgColor.gFadedToward(percent: fadeMap[fadeOffset], to: bgColor)
-                            raw[toOffset + 2] = fgColor.bFadedToward(percent: fadeMap[fadeOffset], to: bgColor)
-                            if (fadeMap[fadeOffset] > 0.2) {
-                                fadeMap[fadeOffset] *= 0.65
+                            buf.storeBytes(of: fgColor.rFadedToward(percent: fadeMap[fadeOffset], to: bgColor), as: UInt8.self)
+                            buf += 1
+                            buf.storeBytes(of: fgColor.gFadedToward(percent: fadeMap[fadeOffset], to: bgColor), as: UInt8.self)
+                            buf += 1
+                            buf.storeBytes(of: fgColor.bFadedToward(percent: fadeMap[fadeOffset], to: bgColor), as: UInt8.self)
+                            buf += 1
+                            if (fadeMap[fadeOffset] > 0.05) {
+                                fadeMap[fadeOffset] *= 0.90
                             } else {
                                 fadeMap[fadeOffset] = 0.0
                             }
                         }
-                        raw[toOffset + 3] = 255
+                        buf.storeBytes(of: 255, as: UInt8.self)
+                        buf += 1
                     } else {
                         fadeMap[fadeOffset] = 1.0
-                        raw[toOffset] = fgColor.r
-                        raw[toOffset + 1] = fgColor.g
-                        raw[toOffset + 2] = fgColor.b
-                        raw[toOffset + 3] = 255
+                        buf.storeBytes(of: fgColor.r, as: UInt8.self)
+                        buf += 1
+                        buf.storeBytes(of: fgColor.g, as: UInt8.self)
+                        buf += 1
+                        buf.storeBytes(of: fgColor.b, as: UInt8.self)
+                        buf += 1
+                        buf.storeBytes(of: 255, as: UInt8.self)
+                        buf += 1
                     }
                     fadeOffset += 1
-                    toOffset += 4
                 }
                 fromOffset += 1
             }
         }
+
+        ioSurface.unlock(options: [], seed: &seed)
     }
 
     private func redrawRawWithoutFade(fgColor: DmdColor, bgColor: DmdColor) {
+        var seed: UInt32 = 0
+
+        ioSurface.lock(options: [], seed: &seed)
+
+        var buf = ioSurface.baseAddress
+
         var fromOffset = 0
-        var toOffset = 0
 
         for _ in 0 ..< 1024 {
             for _ in 0 ..< 100 {
@@ -217,21 +264,30 @@ class DmdView: NSView {
                 for i: uint8 in 0..<8 {
                     let bit = (byte >> (7 as uint8 - i)) & 1
                     if (bit == 0) {
-                        raw[toOffset] = bgColor.r
-                        raw[toOffset + 1] = bgColor.g
-                        raw[toOffset + 2] = bgColor.b
-                        raw[toOffset + 3] = 255
+                        buf.storeBytes(of: bgColor.r, as: UInt8.self)
+                        buf += 1
+                        buf.storeBytes(of: bgColor.g, as: UInt8.self)
+                        buf += 1
+                        buf.storeBytes(of: bgColor.b, as: UInt8.self)
+                        buf += 1
+                        buf.storeBytes(of: 255, as: UInt8.self)
+                        buf += 1
                     } else {
-                        raw[toOffset] = fgColor.r
-                        raw[toOffset + 1] = fgColor.g
-                        raw[toOffset + 2] = fgColor.b
-                        raw[toOffset + 3] = 255
+                        buf.storeBytes(of: fgColor.r, as: UInt8.self)
+                        buf += 1
+                        buf.storeBytes(of: fgColor.g, as: UInt8.self)
+                        buf += 1
+                        buf.storeBytes(of: fgColor.b, as: UInt8.self)
+                        buf += 1
+                        buf.storeBytes(of: 255, as: UInt8.self)
+                        buf += 1
                     }
-                    toOffset += 4
                 }
                 fromOffset += 1
             }
         }
+
+        ioSurface.unlock(options: [], seed: &seed)
     }
 
     func updateImage() {
@@ -252,32 +308,12 @@ class DmdView: NSView {
         if (self.simulatePhosphor) {
             redrawRawWithFade(fgColor: fgColor, bgColor: bgColor)
         } else {
-            if (self.videoRam == self.lastVideoRam) {
-                return
-            }
             redrawRawWithoutFade(fgColor: fgColor, bgColor: bgColor)
         }
 
-        lastVideoRam = videoRam
-
-        // This weird optional temp is required to satisfy the API of
-        // NSBitmapImageRep
-        var imgData: UnsafeMutablePointer<UInt8>?
-        imgData = UnsafeMutablePointer<UInt8>(&raw)
-        let imageRep = NSBitmapImageRep(bitmapDataPlanes: &imgData,
-                                        pixelsWide: 800,
-                                        pixelsHigh: 1024,
-                                        bitsPerSample: 8,
-                                        samplesPerPixel: 4,
-                                        hasAlpha: true,
-                                        isPlanar: false,
-                                        colorSpaceName: NSColorSpaceName.deviceRGB,
-                                        bitmapFormat: .thirtyTwoBitBigEndian,
-                                        bytesPerRow: 4 * 800,
-                                        bitsPerPixel: 32)
-        let image = NSImage(size: imageRep!.size)
-        image.addRepresentation(imageRep!)
-        self.imageView.image = image
+        // To force the update of the layer, we have to clear out
+        // the contents and reset them. Crazy! Apple is CRAZY!
+        self.layer?.contents = nil
+        self.layer?.contents = ioSurface
     }
 }
-
