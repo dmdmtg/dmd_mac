@@ -21,7 +21,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDirectory() -> URL? {
         let fm = FileManager.default
-        var appSupportDirs = fm.urls(for: .applicationDirectory, in: .userDomainMask)
+        let appSupportDirs = fm.urls(for: .applicationDirectory, in: .userDomainMask)
         if (appSupportDirs.count > 0) {
             var dirPath = appSupportDirs[0]
             dirPath.appendPathComponent(Bundle.main.bundleIdentifier!)
